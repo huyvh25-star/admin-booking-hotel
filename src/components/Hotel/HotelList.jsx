@@ -1,19 +1,6 @@
-import { Pencil, Trash2 } from "lucide-react";
-import hotelApi from "../../api/hotelApi";
-
-const HotelList = ({ hotels, onEdit, onDelete }) => {
-  const handleDelete = async (id) => {
-    const confirm = window.confirm("Bạn có chắc muốn xóa khách sạn này?");
-    if (!confirm) return;
-
-    try {
-      await hotelApi.delete(id);
-      onDelete(); // gọi lại fetchHotels trong HotelPage
-    } catch (error) {
-      console.error("Lỗi khi xóa khách sạn:", error);
-    }
-  };
-
+import { Pencil } from "lucide-react";
+import { Link } from "react-router-dom";
+const HotelList = ({ hotels, onEdit }) => {
   return (
     <div className="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 shadow-sm">
       <table className="table table-zebra w-full">
@@ -75,12 +62,12 @@ const HotelList = ({ hotels, onEdit, onDelete }) => {
                       <Pencil size={16} /> Edit
                     </button>
 
-                    {/* <button
-                      className="btn btn-sm btn-outline btn-error flex items-center gap-1"
-                      onClick={() => handleDelete(hotel._id)}
+                    <Link
+                      className="btn btn-sm btn-outline btn-success flex items-center gap-1"
+                      to={`/hotel/${hotel._id}`}
                     >
-                      <Trash2 size={16} /> Delete
-                    </button> */}
+                      Room
+                    </Link>
                   </div>
                 </td>
               </tr>

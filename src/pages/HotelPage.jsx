@@ -62,7 +62,7 @@ const HotelPage = () => {
       )}
 
       {/* Danh sách hotel */}
-      <HotelList hotels={hotels} onEdit={handleEdit} onDelete={fetchHotels} />
+      <HotelList hotels={hotels} onEdit={handleEdit} />
     </div>
   );
 };

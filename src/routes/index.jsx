@@ -10,7 +10,7 @@ export default [
     children: [
       { index: true, element: <DashBoard /> },
       { path: "hotel", element: <HotelPage /> },
-      { path: "room", element: <RoomPage /> },
+      { path: "hotel/:id", element: <RoomPage /> },
     ],
   },
 ];
