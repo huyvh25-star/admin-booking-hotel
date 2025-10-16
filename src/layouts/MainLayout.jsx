@@ -18,7 +18,6 @@ const MainLayout = () => {
               Dash board
             </Link>
             <Link to="/hotel">hotel</Link>
-            <Link to="/room">room</Link>
           </nav>
         </aside>
 
