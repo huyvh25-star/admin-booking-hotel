@@ -1,7 +1,7 @@
 import axiosClient from "./axiosClient";
 
 const hotelApi = {
-  getAll: () => axiosClient.get("/hotels"),
+  getAll: (params) => axiosClient.get("/hotels", { params }),
   getById: (id) => axiosClient.get(`/hotels/${id}`),
   add: (data) => axiosClient.post("/hotels", data),
   update: (id, data) => axiosClient.put(`/hotels/${id}`, data),

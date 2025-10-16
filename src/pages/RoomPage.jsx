@@ -5,14 +5,12 @@ import RoomList from "../components/Room/RoomList";
 import RoomForm from "../components/Room/RoomForm";
 const RoomPage = () => {
   const { id } = useParams();
-  console.log(id);
   const [rooms, setRooms] = useState([]);
   const [modal, setModal] = useState(false);
   const [selectedRoom, SetSelectedRoom] = useState(null);
   const fetchHotels = async () => {
     try {
       const res = await roomApi.getAll(id);
-      // setHotels(res.data);
       setRooms(res.data);
     } catch (error) {
       console.error("Lỗi khi tải danh sách khách sạn:", error);
