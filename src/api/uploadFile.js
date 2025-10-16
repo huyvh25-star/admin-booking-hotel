@@ -1,16 +1,13 @@
 import axios from "axios";
+const apiUrl = import.meta.env.VITE_API_URL;
 export const uploadSingleFile = async (file) => {
   try {
     const formData = new FormData();
     formData.append("image", file);
 
-    const res = await axios.post(
-      "http://localhost:5000/api/upload/single",
-      formData,
-      {
-        headers: { "Content-Type": "multipart/form-data" },
-      }
-    );
+    const res = await axios.post(`${apiUrl}/upload/single`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
 
     console.log("✅ Upload 1 ảnh thành công:", res.data);
     return res.data; // { message, imageUrl, publicId }
@@ -26,13 +23,9 @@ export const uploadMultipleFiles = async (files) => {
       formData.append("images", files[i]);
     }
 
-    const res = await axios.post(
-      "http://localhost:5000/api/upload/multiple",
-      formData,
-      {
-        headers: { "Content-Type": "multipart/form-data" },
-      }
-    );
+    const res = await axios.post(`${apiUrl}/upload/multiple`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
 
     console.log("✅ Upload nhiều ảnh thành công:", res.data);
     return res.data; // { message, images: [ { imageUrl, publicId } ] }

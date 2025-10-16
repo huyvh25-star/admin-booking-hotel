@@ -1,4 +1,5 @@
 import { useState } from "react";
+const apiUrl = import.meta.env.VITE_API_URL;
 import { toast } from "sonner";
 import axios from "axios";
 import { X } from "lucide-react";
@@ -26,11 +27,9 @@ const UploadImage = ({ selectedRoomId, setSelectedRoomId }) => {
 
     try {
       setIsload(true);
-      const res = await axios.post(
-        "http://localhost:5000/api/upload/multiple",
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+      const res = await axios.post(`${apiUrl}/upload/multiple`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       // ✅ Lấy cả publicId + imageUrl
       const uploadedImages = res.data.images.map((img) => ({
