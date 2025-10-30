@@ -5,6 +5,8 @@ import LoginPage from "../pages/LoginPage";
 import RoomPage from "../pages/RoomPage";
 import UserPage from "../pages/UserPage";
 import PrivateRoute from "./PrivateRoute";
+import BookingPage from "../pages/BookingPage";
+import BannerPage from "../pages/BannerPage";
 export default [
   {
     path: "/",
@@ -17,6 +19,8 @@ export default [
       { index: true, element: <DashBoard /> },
       { path: "hotel", element: <HotelPage /> },
       { path: "hotel/:id", element: <RoomPage /> },
+      { path: "booking", element: <BookingPage /> },
+      { path: "banner", element: <BannerPage /> },
       { path: "user", element: <UserPage /> },
     ],
   },

@@ -36,7 +36,7 @@ export const uploadMultipleFiles = async (files) => {
 };
 export const deleteImage = async (public_id) => {
   try {
-    const res = await axios.delete("http://localhost:5000/api/upload/delete", {
+    const res = await axios.delete(`${apiUrl}/upload/delete`, {
       data: { public_id }, // gửi qua body
       headers: { "Content-Type": "application/json" },
     });
