@@ -9,6 +9,7 @@ const HotelForm = ({ setModal, selectedHotel, onSuccess }) => {
     name: "",
     address: "",
     rating: "",
+    price: "",
     description: "",
     img: "",
   });
@@ -21,6 +22,7 @@ const HotelForm = ({ setModal, selectedHotel, onSuccess }) => {
       setData({
         name: selectedHotel.name || "",
         address: selectedHotel.address || "",
+        price: selectedHotel.price || "",
         rating: selectedHotel.rating || "",
         description: selectedHotel.description || "",
         img: selectedHotel.img || "",
@@ -30,6 +32,7 @@ const HotelForm = ({ setModal, selectedHotel, onSuccess }) => {
       setData({
         name: "",
         address: "",
+        price: "",
         rating: "",
         description: "",
         img: "",
@@ -126,6 +129,20 @@ const HotelForm = ({ setModal, selectedHotel, onSuccess }) => {
           value={data.name}
           onChange={handleData}
           placeholder="Tên khách sạn"
+          className="mt-2 w-[65%] px-2 py-1 border border-gray-300 rounded-lg 
+          focus:outline-none focus:border-blue-500 focus:ring-2 
+          focus:ring-blue-100 transition"
+        />
+      </div>
+      {/* Giá khách sạn */}
+      <div className="flex w-full justify-between items-center">
+        <label className="flex-1 font-medium">Giá niêm yết</label>
+        <input
+          type="number"
+          name="price"
+          value={data.price}
+          onChange={handleData}
+          placeholder="Giá khách sạn"
           className="mt-2 w-[65%] px-2 py-1 border border-gray-300 rounded-lg 
           focus:outline-none focus:border-blue-500 focus:ring-2 
           focus:ring-blue-100 transition"

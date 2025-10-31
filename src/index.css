@@ -1,2 +1,5 @@
 @import "tailwindcss";
 @plugin "daisyui";
+* {
+  font-family: "Alan Sans", sans-serif;
+}

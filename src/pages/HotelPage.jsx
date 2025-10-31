@@ -34,7 +34,10 @@ const HotelPage = () => {
     }
     setIsLoad(false);
   };
-
+  // call lại list sau khi update trạng thái
+  const refrestList = () => {
+    fetchHotels();
+  };
   // 🌀 Gọi lại khi thay đổi modal (thêm/sửa), search, page
   useEffect(() => {
     fetchHotels();
@@ -53,7 +56,7 @@ const HotelPage = () => {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full h-full">
       {/* 🔖 Tiêu đề */}
       <div className="flex justify-center font-bold text-3xl mt-6">
         <h1>Quản Lý Khách Sạn</h1>
@@ -100,7 +103,11 @@ const HotelPage = () => {
           <span className="loading loading-spinner loading-xl text-blue-600"></span>
         </div>
       ) : (
-        <HotelList hotels={hotels} onEdit={handleEdit} />
+        <HotelList
+          hotels={hotels}
+          onEdit={handleEdit}
+          refrestList={refrestList}
+        />
       )}
       {/* 📄 Phân trang */}
       <div className="flex justify-center mt-4 space-x-2">

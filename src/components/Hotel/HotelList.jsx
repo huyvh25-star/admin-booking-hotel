@@ -1,6 +1,17 @@
 import { Pencil } from "lucide-react";
 import { Link } from "react-router-dom";
-const HotelList = ({ hotels, onEdit }) => {
+import hotelApi from "../../api/hotelApi";
+const HotelList = ({ hotels, onEdit, refrestList }) => {
+  const handlerUpdateStatus = async (id) => {
+    try {
+      const rest = await hotelApi.updateStatus(id);
+      console.log(rest);
+      refrestList();
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(id);
+  };
   return (
     <div className="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 shadow-sm">
       <table className="table table-zebra w-full">
@@ -10,6 +21,7 @@ const HotelList = ({ hotels, onEdit }) => {
             <th>#</th>
             <th>Image</th>
             <th>Name</th>
+            <th>price</th>
             <th>Address</th>
             <th>Rating</th>
             <th>Description</th>
@@ -36,6 +48,7 @@ const HotelList = ({ hotels, onEdit }) => {
 
                 {/* Tên */}
                 <td className="font-semibold">{hotel.name}</td>
+                <td className="font-semibold">{hotel.price}</td>
 
                 {/* Địa chỉ */}
                 <td className="text-sm text-gray-600">{hotel.address}</td>
@@ -68,6 +81,22 @@ const HotelList = ({ hotels, onEdit }) => {
                     >
                       Room
                     </Link>
+
+                    {hotel.active === true ? (
+                      <button
+                        onClick={() => handlerUpdateStatus(hotel._id)}
+                        className="btn btn-sm bg-red-500 text-white"
+                      >
+                        Dừng Hoạt Động
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handlerUpdateStatus(hotel._id)}
+                        className="btn btn-sm bg-blue-500 text-white"
+                      >
+                        Hoạt động Lại
+                      </button>
+                    )}
                   </div>
                 </td>
               </tr>

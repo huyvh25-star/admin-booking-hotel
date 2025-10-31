@@ -13,15 +13,17 @@ const MainLayout = () => {
     { name: "Thống Kê", path: "/" },
     { name: "Quản Lý Khách Sạn", path: "/hotel" },
     { name: "Quản Lý Hóa Đơn", path: "/booking" },
-    { name: "Quản Lý Người Dùng", path: "/user" },
+    { name: "Danh sách khách hàng", path: "/customer" },
     { name: "Quản Lý Banner", path: "/banner" },
+    { name: "Tài Khoản Nhận Tiền", path: "/bank" },
+    { name: "Tài khoản", path: "/user" },
   ];
 
   return (
     <div className="bg-gray-50 h-screen flex flex-col">
       {/* Header */}
-      <header className="flex justify-between items-center shadow-md bg-white h-16 px-6 border-b">
-        <h1 className="text-2xl font-bold text-pink-600">🏨 Admin Panel</h1>
+      <header className="flex justify-between items-center shadow-md bg-white px-6 border-b min-h-16">
+        <h1 className="text-2xl font-bold text-pink-600">Đặt Phòng Nhanh</h1>
         <button
           onClick={handleLogout}
           className="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-xl transition"
@@ -54,7 +56,7 @@ const MainLayout = () => {
         </aside>
 
         {/* Content */}
-        <section className="flex-1 bg-gray-50 p-6 overflow-y-auto">
+        <section className="flex-1 bg-gray-50 p-6 overflow-y-scroll">
           <Outlet />
         </section>
       </main>

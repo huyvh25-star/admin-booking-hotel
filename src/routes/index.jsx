@@ -7,6 +7,8 @@ import UserPage from "../pages/UserPage";
 import PrivateRoute from "./PrivateRoute";
 import BookingPage from "../pages/BookingPage";
 import BannerPage from "../pages/BannerPage";
+import BankPage from "../pages/BankPage";
+import CustomerPage from "../pages/CustomerPage";
 export default [
   {
     path: "/",
@@ -22,6 +24,8 @@ export default [
       { path: "booking", element: <BookingPage /> },
       { path: "banner", element: <BannerPage /> },
       { path: "user", element: <UserPage /> },
+      { path: "bank", element: <BankPage /> },
+      { path: "customer", element: <CustomerPage /> },
     ],
   },
   {

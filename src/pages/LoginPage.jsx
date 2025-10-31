@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { authApi } from "../api/authApi";
 const LoginPage = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -17,18 +18,35 @@ const LoginPage = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.email || !form.password) {
       toast.error("Vui lòng nhập đầy đủ thông tin!");
       return;
     }
-    localStorage.setItem("admin", JSON.stringify(form));
+
+    //localStorage.setItem("admin", JSON.stringify(form));
 
     // Giả lập login (bạn có thể call API ở đây)
-    navigate("/");
-    toast.success("Đăng nhập thành công!");
-    console.log("Login info:", form);
+    // navigate("/");
+    // toast.success("Đăng nhập thành công!");
+    // console.log("Login info:", form);
+
+    // sử lý thật
+    try {
+      const rest = await authApi.login(form);
+      console.log(rest);
+      // kiểm tra quyền hạn
+      if (rest.data.role !== "admin") {
+        toast.error("bạn không đủ quyền hạn truy cập trang này!");
+      } else {
+        localStorage.setItem("admin", JSON.stringify(rest.data));
+        navigate("/");
+        toast.success("Đăng nhập thành công!");
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
 
   return (
@@ -48,7 +66,7 @@ const LoginPage = () => {
               name="email"
               value={form.email}
               onChange={handleChange}
-              placeholder="you@example.com"
+              placeholder="you@gmail.com"
               className="input input-bordered w-full"
               required
             />
