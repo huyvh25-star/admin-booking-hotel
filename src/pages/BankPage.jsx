@@ -101,8 +101,8 @@ export default function BankList() {
         <input
           type="text"
           placeholder="Tên ngân hàng"
-          value={form.name}
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
+          value={form.bankName}
+          onChange={(e) => setForm({ ...form, bankName: e.target.value })}
           className="input input-bordered w-full sm:w-1/4"
         />
         <input
@@ -115,8 +115,8 @@ export default function BankList() {
         <input
           type="text"
           placeholder="Tên chủ tài khoản"
-          value={form.bankName}
-          onChange={(e) => setForm({ ...form, bankName: e.target.value })}
+          value={form.name}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
           className="input input-bordered w-full sm:w-1/4"
         />
         <button
@@ -151,9 +151,9 @@ export default function BankList() {
           <tbody>
             {banks.map((bank) => (
               <tr key={bank._id}>
-                <td>{bank.name}</td>
-                <td>{bank.number}</td>
                 <td>{bank.bankName}</td>
+                <td>{bank.number}</td>
+                <td>{bank.name}</td>
                 <td>
                   <span
                     className={`badge ${
