@@ -2,11 +2,12 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 const MainLayout = () => {
   const navigate = useNavigate();
-
+  const user = JSON.parse(localStorage.getItem("admin"));
   const handleLogout = () => {
     localStorage.clear();
     navigate("/login");
   };
+  console.log("user : ", user);
 
   // Tạo danh sách menu
   const menuItems = [
@@ -24,12 +25,17 @@ const MainLayout = () => {
       {/* Header */}
       <header className="flex justify-between items-center shadow-md bg-white px-6 border-b min-h-16">
         <h1 className="text-2xl font-bold text-pink-600">Đặt Phòng Nhanh</h1>
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-xl transition"
-        >
-          Đăng xuất
-        </button>
+        <div className="flex items-center gap-4 bg-white/20 backdrop-blur-md px-4 py-2 rounded-xl shadow-md text-white">
+          <span className="font-medium text-sm text-slate-950">
+            {user?.email} : {user?.role}
+          </span>
+          <button
+            onClick={handleLogout}
+            className="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-300 shadow-md hover:scale-105"
+          >
+            Đăng xuất
+          </button>
+        </div>
       </header>
 
       {/* Main */}

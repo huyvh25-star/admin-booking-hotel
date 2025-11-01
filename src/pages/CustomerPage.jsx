@@ -1,45 +1,37 @@
 import { useEffect, useState } from "react";
-import { Eye, Edit, Trash2, UserPlus } from "lucide-react";
+import userApi from "../api/userApi";
 
 const CustomerPage = () => {
   const [loading, setLoading] = useState(true);
-  const [customers, setCustomers] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  // 🧾 Hàm fetch user có phân trang
+  const fetchUsers = async (params = {}) => {
+    try {
+      setLoading(true);
+      const res = await userApi.getAll({ page, limit: 10, ...params });
+      if (res.code === 200) {
+        setUsers(res.data || []);
+        setTotalPages(res.pagination?.totalPages || 1);
+      }
+    } catch (error) {
+      console.error("Lỗi khi lấy danh sách user:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    // Giả lập API
-    setTimeout(() => {
-      setCustomers([
-        {
-          id: 1,
-          name: "Nguyễn Văn A",
-          email: "vana@example.com",
-          phone: "0987654321",
-          avatar: "https://i.pravatar.cc/100?img=1",
-        },
-        {
-          id: 2,
-          name: "Trần Thị B",
-          email: "thib@example.com",
-          phone: "0912345678",
-          avatar: "https://i.pravatar.cc/100?img=2",
-        },
-        {
-          id: 3,
-          name: "Lê Hoàng C",
-          email: "hoangc@example.com",
-          phone: "0978123456",
-          avatar: "https://i.pravatar.cc/100?img=3",
-        },
-      ]);
-      setLoading(false);
-    }, 1000);
-  }, []);
+    fetchUsers();
+  }, [page]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-base-200 p-6">
+    <div className="flex flex-col min-h-screen bg-gray-50 p-6">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-base-content">
+        <h1 className="text-3xl font-bold text-gray-800">
           Danh Sách Khách Hàng
         </h1>
       </div>
@@ -50,53 +42,61 @@ const CustomerPage = () => {
           <span className="loading loading-spinner loading-lg text-primary"></span>
         </div>
       ) : (
-        <div className="overflow-x-auto shadow-xl rounded-2xl bg-base-100">
-          <table className="table table-zebra w-full">
-            <thead className="bg-base-300 text-base-content">
+        <div className="overflow-x-auto shadow-lg rounded-2xl bg-white">
+          <table className="table w-full">
+            <thead className="bg-gray-100 text-gray-700">
               <tr>
                 <th>#</th>
                 <th>Khách hàng</th>
                 <th>Email</th>
                 <th>Số điện thoại</th>
-                <th className="text-center">Hành động</th>
               </tr>
             </thead>
             <tbody>
-              {customers.map((c, i) => (
-                <tr key={c.id} className="hover:bg-base-200 transition-all">
-                  <td>{i + 1}</td>
-                  <td>
-                    <div className="flex items-center gap-3">
-                      <div className="avatar">
-                        <div className="mask mask-circle w-12 h-12">
-                          <img src={c.avatar} alt={c.name} />
-                        </div>
-                      </div>
-                      <div>
-                        <div className="font-bold">{c.name}</div>
-                        <div className="text-sm opacity-50">ID: {c.id}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>{c.email}</td>
-                  <td>{c.phone}</td>
-                  <td className="text-center">
-                    <div className="flex justify-center gap-3">
-                      <button className="btn btn-ghost btn-sm text-blue-500 hover:bg-blue-50">
-                        <Eye size={18} />
-                      </button>
-                      <button className="btn btn-ghost btn-sm text-green-500 hover:bg-green-50">
-                        <Edit size={18} />
-                      </button>
-                      <button className="btn btn-ghost btn-sm text-red-500 hover:bg-red-50">
-                        <Trash2 size={18} />
-                      </button>
-                    </div>
+              {users.length > 0 ? (
+                users.map((c, i) => (
+                  <tr
+                    key={c._id}
+                    className="hover:bg-gray-50 transition-all border-b"
+                  >
+                    <td>{(page - 1) * 10 + i + 1}</td>
+                    <td>{c.name}</td>
+                    <td>{c.email}</td>
+                    <td>{c.phone || "—"}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={5} className="text-center py-6 text-gray-500">
+                    Không có khách hàng nào.
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {/* Pagination */}
+      {!loading && (
+        <div className="flex justify-center items-center mt-6 gap-3">
+          <button
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page === 1}
+            className="btn btn-sm btn-outline"
+          >
+            Trang trước
+          </button>
+          <span className="text-gray-600 font-medium">
+            Trang {page} / {totalPages}
+          </span>
+          <button
+            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            disabled={page === totalPages}
+            className="btn btn-sm btn-outline"
+          >
+            Trang sau
+          </button>
         </div>
       )}
     </div>

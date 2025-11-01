@@ -40,36 +40,24 @@ const UserPage = () => {
       // gọi API
       const res = await authApi.update(user._id, formData);
 
-      // Debug: in ra để bạn biết server trả gì (xem console)
-      console.log("Raw response from authApi.update:", res);
-
-      // Chuẩn hoá payload:
-      // res có thể là: axiosResponse (-> res.data), hoặc object đã unwrap (-> res)
-      const payload = res?.data ?? res; // nếu axios, payload = res.data ; else payload = res
-      console.log("Normalized payload:", payload);
-
-      // Dữ liệu user có thể nằm ở payload.data (thường) hoặc payload trực tiếp
+      const payload = res?.data ?? res;
       const updatedUser = payload?.data ?? payload;
       const message = payload?.message || "Cập nhật thành công!";
 
       if (!updatedUser || !updatedUser._id) {
-        // Nếu server không trả user hợp lệ thì thông báo lỗi nhưng KHÔNG ném throw
-        console.warn("Invalid response shape — missing updated user", payload);
         toast.error(
           payload?.message ||
             "Server trả dữ liệu không hợp lệ. Kiểm tra console."
         );
-        return; // thoát, loading sẽ tắt ở finally
+        return;
       }
 
-      // Thành công — cập nhật localStorage + state
       toast.success(message);
       localStorage.setItem("admin", JSON.stringify(updatedUser));
       setUser(updatedUser);
       setFormData((prev) => ({ ...prev, password: "" }));
     } catch (err) {
       console.error("API Error:", err);
-      // hiển thị thông điệp phù hợp: ưu tiên message từ server, nếu không có dùng err.message
       const serverMsg =
         err?.response?.data?.message ?? err?.message ?? "Cập nhật thất bại!";
       toast.error(serverMsg);

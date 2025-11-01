@@ -10,6 +10,10 @@ const billApi = {
 
   // 🔄 Cập nhật trạng thái hóa đơn (xác nhận / hủy)
   updateStatus: (id, data) => axiosClient.put(`/bills/${id}/status`, data),
+
+  // 📊 Lấy thống kê hóa đơn (doanh thu, trạng thái, top khách hàng)
+  // getStats: () => axiosClient.get("/bills/stats"),
+  getStats: (params) => axiosClient.get("/bills/stats", { params }),
 };
 
 export default billApi;
