@@ -11,7 +11,7 @@ const CustomerPage = () => {
   const fetchUsers = async (params = {}) => {
     try {
       setLoading(true);
-      const res = await userApi.getAll({ page, limit: 10, ...params });
+      const res = await userApi.getAll({ page, limit: 8, ...params });
       if (res.code === 200) {
         setUsers(res.data || []);
         setTotalPages(res.pagination?.totalPages || 1);
