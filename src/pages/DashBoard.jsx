@@ -10,6 +10,7 @@ import {
   Pie,
   Cell,
   Legend,
+  CartesianGrid,
 } from "recharts";
 import { Hotel, Users, DollarSign, TrendingUp, Filter } from "lucide-react";
 import billApi from "../api/billApi";
@@ -142,20 +143,59 @@ export default function DashBoard() {
               : "năm"}
           </h2>
           {stats.revenueByDate?.length > 0 ? (
-            <div className="h-[400px] min-w-full">
+            <div className="h-[480px] min-w-full">
+              {" "}
+              {/* Tăng cao hơn nữa */}
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={stats.revenueByDate}>
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip
-                    formatter={(value) => `${value.toLocaleString()}₫`}
+                <BarChart
+                  data={stats.revenueByDate}
+                  margin={{ top: 40, right: 70, left: 80, bottom: 60 }} // Tăng mạnh margin
+                >
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+
+                  <XAxis
+                    dataKey="date"
+                    tick={{ fontSize: 12 }}
+                    angle={-45}
+                    textAnchor="end"
+                    height={80} // Đẩy trục X xuống để đủ chỗ cho nhãn nghiêng
                   />
-                  <Bar dataKey="revenue" fill="#3b82f6" />
+
+                  <YAxis
+                    tickFormatter={(value) => {
+                      const num = Number(value);
+                      if (num >= 1_000_000)
+                        return `${(num / 1_000_000).toFixed(0)}M`;
+                      if (num >= 1_000) return `${(num / 1_000).toFixed(0)}K`;
+                      return num.toLocaleString();
+                    }}
+                    tick={{ fontSize: 13, fill: "#374151" }}
+                    width={100} // RẤT QUAN TRỌNG: đủ rộng cho "20M"
+                    domain={[0, (dataMax) => dataMax * 1.3]} // Tăng 30% trần để có khoảng thở
+                    allowDataOverflow={false}
+                  />
+
+                  <Tooltip
+                    formatter={(value) => `${Number(value).toLocaleString()}₫`}
+                    contentStyle={{
+                      backgroundColor: "#fff",
+                      border: "1px solid #e5e7eb",
+                      borderRadius: "8px",
+                      fontSize: "14px",
+                    }}
+                  />
+
+                  <Bar
+                    dataKey="revenue"
+                    fill="#3b82f6"
+                    radius={[8, 8, 0, 0]}
+                    maxBarSize={100} // Giới hạn độ rộng cột
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </div>
           ) : (
-            <p className="text-center text-gray-500 italic">
+            <p className="text-center text-gray-500 italic py-12">
               Không có dữ liệu thống kê
             </p>
           )}

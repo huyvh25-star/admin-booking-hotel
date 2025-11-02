@@ -62,7 +62,7 @@ const MainLayout = () => {
         </aside>
 
         {/* Content */}
-        <section className="flex-1 bg-gray-50 p-6 overflow-y-scroll">
+        <section className="flex-1 bg-gray-50 p-6 overflow-y-auto min-h-0">
           <Outlet />
         </section>
       </main>
